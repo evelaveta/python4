@@ -24,12 +24,12 @@ def calculate_av(data):
 
     return av
 
-def process_data(filename):
+def process_data(filename, i):
     data = read_data(filename)
-    showi(data, 'start.png')
+    showi(data, f'start{i:02}.png')
     av = calculate_av(data)
-    showi(av, 'result.png')
+    showi(av, f'result{i:02}.png')
 
 for i in range(1, 4):
     filename = f'/Users/evelaveta/Desktop/Programming/term4/numpy/2/signals/signal{i:02}.dat'
-    process_data(filename)
+    process_data(filename, i)
