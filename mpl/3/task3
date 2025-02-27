@@ -1,0 +1,37 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+
+with open('3.csv', 'r') as f:
+    prepmark = []
+    groupmark = []
+    group = []
+    while True:
+        data = f.readline().split(';')
+        if len(data) < 3:
+            break
+        prepmark.append( [data[0], int(data[2])])
+        groupmark.append([int(data[1]), int(data[2])])
+        group.append(int(data[1]))
+
+
+pm = pd.DataFrame(prepmark, columns=['prep', 'mark'])
+markp = pm.pivot_table(index='prep', columns='mark', aggfunc='size', fill_value=0)
+#print(markp)
+markp.plot.barh(stacked=True)
+plt.title('Marks per prep')
+plt.legend(title='marks')
+fname = 'mperp.png'
+fpath = os.path.join(folpath, fname)
+plt.savefig(fpath, dpi=300)
+#plt.show()
+
+gm = pd.DataFrame(groupmark, columns=['group', 'mark'])
+markg = gm.pivot_table(index='mark', columns='group', aggfunc='size', fill_value=0)
+#print(markg)
+for g in set(group):
+    markg.plot.pie(y=g, figsize=(6, 6), legend=True, ylabel=" ")
+    plt.title(f'Marks in group {g}')
+    plt.legend(title='marks', loc="upper right")
+    fname = f'/Users/evelaveta/Desktop/Programming/term4/mpl/3/pics/mperg{g:03}.png'
+    plt.savefig(fname, dpi=300)
+    #plt.show()
