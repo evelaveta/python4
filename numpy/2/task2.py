@@ -13,15 +13,14 @@ def showi(data, filename):
     plt.savefig(filename)
     plt.close()
 
+
 def calculate_av(data):
     window_size = 10
+    cumsum = np.cumsum(data)
     av = np.zeros_like(data)
 
-    for i in range(len(data)):
-        start_idx = max(0, i - window_size + 1)
-        end_idx = i + 1
-        av[i] = np.mean(data[start_idx:end_idx])
-
+    av[:window_size] = cumsum[:window_size] / np.arange(1, window_size + 1)
+    av[window_size:] = (cumsum[window_size:] - cumsum[:-window_size]) / window_size
     return av
 
 def process_data(filename, i):
